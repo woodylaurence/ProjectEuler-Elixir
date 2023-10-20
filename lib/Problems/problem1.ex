@@ -15,7 +15,10 @@ defmodule Problems.Problem1 do
   end
 
   def sum_multiples_of_3_or_5([head | tail], accumulator) do
-    if is_multiple_of_3?(head) or is_multiple_of_5?(head) do
+    multiple_of_3? = fn x -> rem(x, 3) == 0 end
+    multiple_of_5? = fn x -> rem(x, 5) == 0 end
+
+    if multiple_of_3?.(head) or multiple_of_5?.(head) do
       sum_multiples_of_3_or_5(tail, head + accumulator)
     else
       sum_multiples_of_3_or_5(tail, accumulator)
@@ -24,22 +27,6 @@ defmodule Problems.Problem1 do
 
   def sum_multiples_of_3_or_5([], accumulator) do
     accumulator
-  end
-
-  def is_multiple_of_3?(x) do
-    if (rem x, 3) == 0 do
-      true
-    else
-      false
-    end
-  end
-
-  def is_multiple_of_5?(x) do
-    if (rem x, 5) == 0 do
-      true
-    else
-      false
-    end
   end
 
 end
