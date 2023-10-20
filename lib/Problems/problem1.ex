@@ -18,10 +18,10 @@ defmodule Problems.Problem1 do
     multiple_of_3? = fn x -> rem(x, 3) == 0 end
     multiple_of_5? = fn x -> rem(x, 5) == 0 end
 
-    if multiple_of_3?.(head) or multiple_of_5?.(head) do
-      sum_multiples_of_3_or_5(tail, head + accumulator)
-    else
-      sum_multiples_of_3_or_5(tail, accumulator)
+    cond do
+      multiple_of_3?.(head) ->  sum_multiples_of_3_or_5(tail, head + accumulator)
+      multiple_of_5?.(head) -> sum_multiples_of_3_or_5(tail, head + accumulator)
+      true -> sum_multiples_of_3_or_5(tail, accumulator)
     end
   end
 
