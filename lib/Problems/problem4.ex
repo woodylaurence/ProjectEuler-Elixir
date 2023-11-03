@@ -13,8 +13,8 @@ defmodule Problems.Problem4 do
   end
 
   def reverse_num(x) when is_integer(x) do
-    x |> :erlang.integer_to_list
+    x |> Integer.digits
       |> Enum.reverse
-      |> :erlang.list_to_integer
+      |> Integer.undigits
   end
 end

@@ -1,16 +1,16 @@
 defmodule Math do
-  def multiple_of?(x, y) when y > 0 do
-    rem(x, y) == 0
+  def multiple_of?(num, multiple) when multiple > 0 do
+    rem(num, multiple) == 0
   end
 
-  def factor_of?(x, y) when x > 0 do
-    rem(y, x) == 0
+  def factor_of?(factor, num) when factor > 0 do
+    rem(num, factor) == 0
   end
 
   def get_factors(x, current_factor \\ 1, factors \\ [])
   def get_factors(x, current_factor, factors) do
     cond do
-      current_factor > :math.sqrt(x) |> ceil -> factors |> Enum.sort
+      current_factor > :math.sqrt(x) -> factors |> Enum.sort
       current_factor == :math.sqrt(x) -> factors ++ [current_factor] |> Enum.sort
       Math.factor_of?(current_factor, x) -> get_factors(x, current_factor + 1, factors ++ [current_factor, (x / current_factor) |> trunc])
       true -> get_factors(x, current_factor + 1, factors)
