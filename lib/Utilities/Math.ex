@@ -8,11 +8,17 @@ defmodule Math do
   end
 
   def get_factors(x, current_factor \\ 1, factors \\ [])
+  def get_factors(x, current_factor, factors) when current_factor * current_factor > x do
+    factors |> Enum.sort
+  end
+
+  def get_factors(x, current_factor, factors) when current_factor * current_factor == x do
+    factors ++ [current_factor] |> Enum.sort
+  end
+
   def get_factors(x, current_factor, factors) do
     cond do
-      current_factor > :math.sqrt(x) -> factors |> Enum.sort
-      current_factor == :math.sqrt(x) -> factors ++ [current_factor] |> Enum.sort
-      Math.factor_of?(current_factor, x) -> get_factors(x, current_factor + 1, factors ++ [current_factor, (x / current_factor) |> trunc])
+      Math.factor_of?(current_factor, x) -> get_factors(x, current_factor + 1, factors ++ [current_factor, div(x, current_factor)])
       true -> get_factors(x, current_factor + 1, factors)
     end
   end
