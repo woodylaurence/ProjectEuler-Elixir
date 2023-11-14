@@ -33,4 +33,22 @@ defmodule Math do
   def fibonacci() do
     Stream.unfold({0, 1}, fn {x, y} -> {x, {y, x + y}} end)
   end
+
+  def primes do
+    Stream.iterate(2, fn x -> next_closest_prime(x) end)
+  end
+
+  def next_closest_prime(x) when is_integer(x) do
+    cond do
+      prime?(x + 1) -> x + 1
+      true -> next_closest_prime(x + 1)
+    end
+  end
+
+  def sqrt_perfect(x) when is_integer(x) do
+    case :math.sqrt(x) do
+      y when y == (y |> trunc) -> y |> trunc
+      _ -> :err
+    end
+  end
 end
