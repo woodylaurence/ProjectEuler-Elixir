@@ -21,67 +21,69 @@ defmodule Problems.Problem11 do
             [20, 73, 35, 29, 78, 31, 90, 01, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 05, 54],
             [01, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 01, 89, 19, 67, 48]]
 
-    calculate_products_for_four_adjacent_numbers(grid)
-        |> Enum.max
+    grid
+      |> calculate_products_for_four_adjacent_numbers
+      |> Enum.max
+
     end
 
     def calculate_products_for_four_adjacent_numbers(grid, row_index \\ 0, column_index \\ 0, products \\ [])
-    def calculate_products_for_four_adjacent_numbers(grid, row_index, _column_index, products) when row_index > length(grid) do
+    def calculate_products_for_four_adjacent_numbers(grid, row_index, _column_index, products) when row_index >= length(grid) do
       products |> Enum.filter(fn x -> x != :invalid end)
     end
 
-    def calculate_products_for_four_adjacent_numbers(grid, row_index, column_index, products) when column_index > length(grid) do
+    def calculate_products_for_four_adjacent_numbers(grid, row_index, column_index, products) when column_index >= length(grid) do
       calculate_products_for_four_adjacent_numbers(grid, row_index + 1, 0, products)
     end
 
     def calculate_products_for_four_adjacent_numbers(grid, row_index, column_index, products) do
-      calculate_products_for_four_adjacent_numbers(grid, row_index, column_index + 1, products ++ [calculate_down_product(grid, row_index, column_index)])
+      calculate_products_for_four_adjacent_numbers(grid, row_index, column_index + 1, products ++ [calculate_down_product(grid, row_index, column_index), calculate_right_product(grid, row_index, column_index), calculate_diagonal_down_right_product(grid, row_index, column_index), calculate_diagonal_down_left_product(grid, row_index, column_index)])
     end
 
-    def calculate_down_product(grid, row_index, _column_index) when row_index > length(grid) - 3 do
+    def calculate_down_product(grid, row_index, _column_index) when row_index >= length(grid) - 3 do
       :invalid
     end
     def calculate_down_product(grid, row_index, column_index) do
-      [0..3]
+      0..3
         |> Enum.map(fn x -> grid |> Enum.at(row_index + x)
                                  |> Enum.at(column_index)
                     end)
         |> Enum.product
     end
 
-    def calculate_right_product(grid, _row_index, column_index) when column_index > length(grid) - 3 do
+    def calculate_right_product(grid, _row_index, column_index) when column_index >= length(grid) - 3 do
       :invalid
     end
     def calculate_right_product(grid, row_index, column_index) do
-      [0..3]
+      0..3
         |> Enum.map(fn x -> grid |> Enum.at(row_index)
-                                   |> Enum.at(column_index + x)
+                                 |> Enum.at(column_index + x)
                     end)
         |> Enum.product
     end
 
-    def calculate_diagonal_down_right_product(grid, row_index, _column_index) when row_index > length(grid) - 3 do
+    def calculate_diagonal_down_right_product(grid, row_index, _column_index) when row_index >= length(grid) - 3 do
       :invalid
     end
-    def calculate_diagonal_down_right_product(grid, _row_index, column_index) when column_index > length(grid) - 3 do
+    def calculate_diagonal_down_right_product(grid, _row_index, column_index) when column_index >= length(grid) - 3 do
       :invalid
     end
     def calculate_diagonal_down_right_product(grid, row_index, column_index) do
-      [0..3]
+      0..3
         |> Enum.map(fn x -> grid |> Enum.at(row_index + x)
                                  |> Enum.at(column_index + x)
                     end)
         |> Enum.product
     end
 
-    def calculate_diagonal_down_left_product(grid, row_index, _column_index) when row_index > length(grid) - 3 do
+    def calculate_diagonal_down_left_product(grid, row_index, _column_index) when row_index >= length(grid) - 3 do
       :invalid
     end
     def calculate_diagonal_down_left_product(_grid, _row_index, column_index) when column_index < 3 do
       :invalid
     end
     def calculate_diagonal_down_left_product(grid, row_index, column_index) do
-      [0..3]
+      0..3
         |> Enum.map(fn x -> grid |> Enum.at(row_index + x)
                                  |> Enum.at(column_index - x)
                     end)
